@@ -1,3 +1,4 @@
+import { connect4Winner } from "./connect4-winner.js";
 import { createInitialState } from "./state.js";
 
 const state = createInitialState();
@@ -9,6 +10,7 @@ boardEl.addEventListener("click", (event) => {
     // Feld finden, welches geklickt wurde
     const field = event.target.closest(".field");
     if (!field) return;
+    if (state.gameOver) return;
 
     const col = parseInt(field.dataset.col);
 
@@ -16,7 +18,14 @@ boardEl.addEventListener("click", (event) => {
         if (state.board[row][col] === "") {
             state.board[row][col] = state.current; // Aktualisieren das Board mit dem aktuellen Spieler
 
-            state.current = state.current === 'r' ? 'b' : 'r';
+            // Check, ob der aktuelle Spieler gewonnen hat
+            if (connect4Winner(state.current, state.board)) {
+                state.winner = state.current;
+                state.gameOver = true;
+                break;
+            } else {
+                state.current = state.current === 'r' ? 'b' : 'r';
+            }
 
             showBoard(state);
             break;
@@ -53,6 +62,11 @@ function showBoard(state) {
             field.dataset.col = col; // Als String abgespeichert
             boardEl.appendChild(field);
         }
+    }
+
+    if (state.gameOver) {
+        statusEl.textContent = `${playerName} hat gewonnen!`;
+        return;
     }
 }
 
