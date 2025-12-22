@@ -35,15 +35,28 @@ function initGame () {
 //  Show board
 // 
 function showBoard () {
-  let board = document.querySelector(".board")
+  const board = document.querySelector(".board")
+  const statusEl = document.querySelector("#status");
 
   // first remove all fields
   while (board.firstChild) { board.removeChild(board.firstChild) }
 
-  // ...
-  // your implementation
-  // ...
+    for (let row = 0; row < 6; row++) {
+      for (let col =0; col < 7; col++) {
+        const type = state.board[row][col];
 
+        const piece = type === '' ? '' : (type === 'r' ? elt("div", { class: "piece red" }) : elt("div", { class: "piece blue" }));
+        const field = elt("div", { class: "field", "data-row": row, "data-col": col }, piece);
+        board.appendChild(field);
+      }
+    }
+
+  const playerName = state.current === 'r' ? 'Rot' : 'Blau';
+  if (state.gameOver) {
+    statusEl.textContent = `${playerName} hat gewonnen! 🏆`;
+  } else {
+    statusEl.textContent = `${playerName} ist am Zug 🔴🔵`;
+  }
   return board
 }
 
@@ -56,7 +69,7 @@ function elt (type, attrs, ...children) {
     node.setAttribute(key, attrs[key])
   })
   for (let child of children) {
-    if (typeof child != "string") node.appendChild(child)
+    if (typeof child != "string" && child !== null) node.appendChild(child)
     else node.appendChild(document.createTextNode(child))
   }
   return node
@@ -66,14 +79,33 @@ function elt (type, attrs, ...children) {
 //  Attach event handler to board
 //
 function attachEventHandler (board) {
-  board.addEventListener("click", (e) => {
-    
-    // ...
-    // your implementation
-    // ...
-     
-    showBoard()
-  })
+  board.addEventListener("click", (event) => {
+    // 1. Feld finden
+    const field = event.target.closest(".field");
+    if (!field || state.gameOver) return;
+
+    // 2. Spalte auslesen
+    const col = parseInt(field.dataset.col);
+
+    // 3. Deine Gravity-Schleife (von unten nach oben prüfen)
+    for (let row = 5; row >= 0; row--) {
+      if (state.board[row][col] === "") {
+        // Stein setzen
+        state.board[row][col] = state.current;
+
+        // Siegprüfung & Spielerwechsel
+        if (connect4Winner(state.current, state.board)) {
+          state.gameOver = true;
+        } else {
+          state.current = state.current === 'r' ? 'b' : 'r';
+        }
+
+        // Spielfeld neu zeichnen
+        showBoard(); 
+        break;
+      }
+    }
+  });
 }
 
 
@@ -83,20 +115,100 @@ function loadState () {
   fetch(SERVICE)
     .then(response => response.json())
     .then(data => {
-      state = data;
-      showBoard(state);
+      console.log("Daten vom Server:", data);
+      if (data && data.board) { // Nur zuweisen, wenn ein board existiert!
+        state = data;
+        showBoard();
+      } else {
+        console.warn("Kein gültiger Spielstand auf dem Server gefunden.");
+      }
     })
-    .catch(error => console.error("Fehler beim Laden:", error));
+}
+
+function loadFromLocal() {
+  const jsonString = localStorage.getItem("c4state");
+
+  if (jsonString) {
+    state = JSON.parse(jsonString);
+    showBoard()
+    console.log("Spielstand lokal geladen!");
+  } else {
+    console.log("Kein lokaler Spielstand gefunden.");
+  }
+}
+
+function saveToLocal() {
+  localStorage.setItem("c4state", JSON.stringify(state));
 }
 
 //  Put current state to server
 //
 function saveState () {
+  fetch(SERVICE, {
+    method: 'PUT',
+    headers: { 'Content-type': 'application/json'},
+    body: JSON.stringify(state)
+  });
+}
 
-  // ...
-  // your implementation
-  // ...
+function connect4Winner(player, board) {
+    // 1. Überprüfung horizontal
+    for (row = 0; row <= 5; row++) { 
+        for (col = 0; col <= 3; col++) { 
+            if (board[row][col] === player && 
+                board[row][col+1] === player && 
+                board[row][col+2] === player && 
+                board[row][col+3] === player) { 
+                    return true; 
+                }
+            }
+        };
+    // 2. Überprüfung vertikal
+    for (row = 0; row <= 2; row++) { 
+        for (col = 0; col <= 6; col++) { 
+            if (board[row][col] === player && 
+                board[row+1][col] === player && 
+                board[row+2][col] === player && 
+                board[row+3][col] === player) { 
+                    return true; 
+                }
+            }
+        };
+    // 3. Diagonal absteigend: 
+    for (row = 0; row <= 2; row++) {
+        for (col = 0; col <= 3; col++) {
+            if (board[row][col] === player &&
+                board[row+1][col+1] === player &&
+                board[row+2][col+2] === player &&
+                board[row+3][col+3] === player) {
+                    return true;
+                }
+            }
+        };
 
+    // 4. Diagonal aufsteigend:
+    for (row = 5; row >= 3; row--) {
+        for (col = 0; col <= 3; col++) {
+            if (board[row][col] === player &&
+                board[row-1][col+1] === player &&
+                board[row-2][col+2] === player &&
+                board[row-3][col+3] === player) {
+                    return true;
+                }
+            }
+        };
+    return false;
+}
+
+function loadState () {
+  fetch(SERVICE)
+    .then(response => response.json())
+    .then(data => {
+      console.log("Daten vom Server:", data);
+      state = data;
+      showBoard(); 
+    })
+    .catch(error => console.error("Fehler beim Laden:", error));
 }
 
   </script>
@@ -105,10 +217,14 @@ function saveState () {
 <body>
 
   <div class="board"></div>
+  <div id="status"></div> <div class="board"></div>
   
   <div class="controls">
-    <button onclick="loadState()">Load</button>
-    <button onclick="saveState()">Save</button>
+    <button onclick="loadState()">Load Server</button>
+    <button onclick="saveState()">Save Server</button>
+
+    <button onclick="loadFromLocal()">Load Local</button>
+    <button onclick="saveToLocal()">Save Local</button>
   </div>
 
   <script>

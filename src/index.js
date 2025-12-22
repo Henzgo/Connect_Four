@@ -52,7 +52,15 @@ app.use(express.json())
 var apiKeys = ['wbeweb', 'c4game']
 
 //  unsere tolle in-memory Datenbank :)
-var data = {1234567890: {demodata: "wbe is an inspiring challenge"}}
+var data = {"c4state": {  board: [
+    [ '', '', '', '', '', '', '' ],
+    [ '', '', '', '', '', '', '' ],
+    [ '', '', '', '', '', '', '' ],
+    [ '', '', '', '', '', '', '' ],
+    [ '', '', '', '', '', '', '' ],
+    [ '', '', '', '', '', '', '' ]
+  ],
+  current: 'b'}}
 
 //  GET-Request bearbeiten
 //
@@ -108,6 +116,3 @@ app.use(function(req, res){
 
 app.listen(3000)
 console.log('Express started on port 3000')
-
-
-
