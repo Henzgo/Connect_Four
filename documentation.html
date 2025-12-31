@@ -2,22 +2,103 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connect Four - Dokumentation</title>
     <style>
-        body { font-family: sans-serif; padding: 40px; line-height: 1.6; max-width: 800px; margin: 0 auto; background: #f4f4f4; }
-        h1 { color: #333; }
-        .container { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            padding: 40px; 
+            line-height: 1.6; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            background: #f4f4f4; 
+            color: #333;
+        }
+        h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+        h2 { color: #2980b9; margin-top: 30px; }
+        h3 { color: #16a085; margin-bottom: 5px; }
+        .container { 
+            background: white; 
+            padding: 40px; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+        }
+        code { background: #eee; padding: 2px 5px; border-radius: 4px; font-family: monospace; color: #c7254e; }
+        ul { margin-top: 5px; }
+        li { margin-bottom: 5px; }
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            text-decoration: none;
+            background: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .back-link:hover { background: #2980b9; }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Technische Dokumentation</h1>
-        <p>Hier beschreibst du deine Komponenten, den State und die 3D-Logik...</p>
+        <p>
+            Diese Anwendung ist eine interaktive 3D-Umsetzung des Strategie-Klassikers "Vier gewinnt". 
+            Ziel des Projekts war die Verbindung moderner Web-Technologien (React) mit performanter 3D-Grafik im Browser.
+        </p>
         
-        <h2>Architektur</h2>
-        <p>Das Spiel nutzt React Three Fiber für...</p>
+        <h2>Technologie-Stack</h2>
+        <ul>
+            <li><strong>React (v18):</strong> Dient als Basis für das UI und das State-Management.</li>
+            <li><strong>Vite:</strong> Build-Tool für schnelle Entwicklungszeiten und optimierten Production-Code.</li>
+            <li><strong>React Three Fiber (R3F):</strong> Ein React-Renderer für Three.js, der es ermöglicht, 3D-Szenen deklarativ als Komponenten zu bauen.</li>
+            <li><strong>Drei:</strong> Eine Helper-Bibliothek für R3F (genutzt für <code>OrbitControls</code>, <code>useGLTF</code> und <code>Center</code>).</li>
+            <li><strong>Blender:</strong> 3D-Modellierungssoftware zur Erstellung des Spielbretts.</li>
+        </ul>
 
-        <a href="./">Zurück zum Spiel</a>
+        <h2>Architektur & Komponenten</h2>
+        
+        <h3>1. State Management (<code>useGameState.js</code>)</h3>
+        <p>
+            Die gesamte Spiellogik wurde vom UI getrennt und in einen Custom Hook (<code>useGameState</code>) ausgelagert. 
+            Dieser verwaltet:
+        </p>
+        <ul>
+            <li>Das 2D-Array des Spielfelds (6x7 Grid).</li>
+            <li>Die Prüfung auf Gewinner (Horizontal, Vertikal, Diagonal).</li>
+            <li>Die "Gravity"-Logik (Steine fallen auf den tiefsten freien Platz).</li>
+            <li>Die Persistenz: Mittels <code>useEffect</code> und <code>localStorage</code> wird der Spielstand bei jeder Änderung automatisch im Browser gespeichert.</li>
+        </ul>
+
+        <h3>2. Die 3D-Szene (<code>App.jsx</code> & <code>Board.jsx</code>)</h3>
+        <p>
+            Die <code>App</code>-Komponente stellt den <code>&lt;Canvas&gt;</code> bereit, welcher die 3D-Welt rendert. 
+            Hier werden auch Lichtquellen (Ambient & Point Light) sowie der atmosphärische Nebel (Fog) definiert.
+        </p>
+
+        <h2>3D-Implementierung & Assets</h2>
+        
+        <h3>Das 3D-Modell</h3>
+        <p>
+            Das Gehäuse des Spielbretts wurde in <strong>Blender</strong> modelliert und als <code>.glb</code> (Binary glTF) exportiert. 
+            Dies sorgt für kleine Dateigrößen und schnelle Ladezeiten. In React wird das Modell über den Hook <code>useGLTF</code> geladen.
+        </p>
+
+        <h3>Generierung der Spielsteine</h3>
+        <p>
+            Die Spielsteine sind keine importierten Modelle, sondern werden zur Laufzeit als <code>&lt;cylinderGeometry /&gt;</code> generiert. 
+            Dies ist performanter, da React nur Geometrie erzeugt, wenn ein Feld tatsächlich belegt ist.
+            Die Positionierung erfolgt mathematisch basierend auf den Array-Indizes (Zeile/Spalte), umgerechnet in 3D-Weltkoordinaten.
+        </p>
+
+        <h3>Interaktion (Hitboxen)</h3>
+        <p>
+            Da das 3D-Modell ein einzelnes Objekt ist, kann der Browser nicht wissen, welche "Spalte" der Nutzer anklickt.
+            Lösung: Es wurden <strong>unsichtbare Hitboxen</strong> (transparente Meshes) über jede der 7 Spalten gelegt. 
+            Klickt der Nutzer auf eine dieser unsichtbaren Säulen, wird das Event abgefangen und an die Spiellogik weitergeleitet.
+        </p>
+
+        <a href="./" class="back-link">← Zurück zum Spiel</a>
     </div>
 </body>
 </html>
