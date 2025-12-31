@@ -19,7 +19,7 @@ Da das Spiel in einer 3D-Umgebung stattfindet, kannst man die Ansicht frei wähl
 * **Verschieben:** Rechte Maustaste gedrückt halten.
 
 
-**[Hier klicken, um das Spiel zu öffnen](https://henzgo.github.io/Connect_Four/)**
+**[Hier klicken, um das Spiel zu öffnen](https://henzgo.github.io/Connect_Four/)**<br />
 **[Link zum Repo](https://github.com/Henzgo/Connect_Four)**
 
 ---
