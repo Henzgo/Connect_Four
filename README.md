@@ -2,9 +2,11 @@
 
 Ein "Vier gewinnt" Miniprojekt, welches im Rahmen des Moduls WBE (Webentwicklung) an der ZHAW entwickelt wurde.
 ---
+
 ## Screenshots:
 ![Blender Screenshot](public/images/Blender.png)
 [![Gameplay Screenshot](public/images/Gameplay.png)](https://henzgo.github.io/Connect_Four/)
+
 ---
 
 ## Entwickler: 
@@ -17,8 +19,9 @@ Da das Spiel in einer 3D-Umgebung stattfindet, kannst man die Ansicht frei wähl
 * **Drehen:** Linke Maustaste gedrückt halten und ziehen. Darauf achten, dass ausserhalb des Spielbretts gedreht wird, da man ansonsten gleich ein Stein setzt.
 * **Zoom:** Mausrad scrollen.
 * **Verschieben:** Rechte Maustaste gedrückt halten.
+---
 
-
+## Links:
 **[Hier klicken, um das Spiel zu öffnen](https://henzgo.github.io/Connect_Four/)**<br />
 **[Link zum Repo](https://github.com/Henzgo/Connect_Four)**
 
