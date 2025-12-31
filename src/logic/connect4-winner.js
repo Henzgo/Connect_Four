@@ -1,5 +1,4 @@
 export function connect4Winner(player, board) {
-    // 1. Überprüfung horizontal
     for (let row = 0; row <= 5; row++) { 
         for (let col = 0; col <= 3; col++) { 
             if (board[row][col] === player && 
@@ -10,7 +9,7 @@ export function connect4Winner(player, board) {
                 }
             }
         };
-    // 2. Überprüfung vertikal
+
     for (let row = 0; row <= 2; row++) { 
         for (let col = 0; col <= 6; col++) { 
             if (board[row][col] === player && 
@@ -21,7 +20,7 @@ export function connect4Winner(player, board) {
                 }
             }
         };
-    // 3. Diagonal absteigend: 
+        
     for (let row = 0; row <= 2; row++) {
         for (let col = 0; col <= 3; col++) {
             if (board[row][col] === player &&
@@ -33,7 +32,6 @@ export function connect4Winner(player, board) {
             }
         };
 
-    // 4. Diagonal aufsteigend:
     for (let row = 5; row >= 3; row--) {
         for (let col = 0; col <= 3; col++) {
             if (board[row][col] === player &&

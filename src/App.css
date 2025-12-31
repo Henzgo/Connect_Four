@@ -1,16 +1,15 @@
-/* Ensure the page takes full height */
 html, body, #root {
   height: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden; /* optional: prevents scrollbars */
-  background-color: #1e1e1e; /* Match your canvas background */
+  overflow: hidden;
+  background-color: #1e1e1e;
 }
 
 .app-container {
   display: flex;
   flex-direction: column;
-  height: 100vh; /* Full Viewport Height */
+  height: 100vh;
   text-align: center;
   color: white;
   font-family: sans-serif;
@@ -20,7 +19,6 @@ h1 {
   margin: 10px 0;
 }
 
-/* Make the canvas fill all available space */
 canvas {
   width: 100% !important;
   height: 100% !important; 

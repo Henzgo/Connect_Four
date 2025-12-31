@@ -1,4 +1,3 @@
-// src/components/Board2D.jsx
 export function Board2D({ board, onFieldClick }) {
   return (
     <div className="board">
@@ -11,7 +10,6 @@ export function Board2D({ board, onFieldClick }) {
   );
 }
 
-// Helper component (internal only)
 function Field({ type, onClick }) {
   return (
     <div className="field" onClick={onClick}>
