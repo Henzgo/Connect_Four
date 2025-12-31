@@ -1,17 +1,19 @@
 # 3D Vier gewinnt (Connect Four)
 
 Ein "Vier gewinnt" Miniprojekt, welches im Rahmen des Moduls WBE (Webentwicklung) an der ZHAW entwickelt wurde.
-Dies ist eine moderne 3D-Implementierung des Spieleklassikers "Vier gewinnt" mit React und Three.js. Das Mini-Projekt entstand im Rahmen des Moduls **Webentwicklung (WBE)** an der ZHAW School of Engineering.
-
+---
+## Screenshots:
+![Blender Screenshot](public/images/Blender.png)
+[![Gameplay Screenshot](public/images/Gameplay.png)](https://henzgo.github.io/Connect_Four/)
 ---
 
 ## Entwickler: 
-Henry Eschenmoser
+Henry Eschenmoser (eschehen@students.zhaw.ch)
 
 ---
 
 ### 3D Steuerung
-Da das Spiel in einer 3D-Umgebung stattfindet, kannst du die Ansicht frei wählen:
+Da das Spiel in einer 3D-Umgebung stattfindet, kannst man die Ansicht frei wählen:
 * **Drehen:** Linke Maustaste gedrückt halten und ziehen. Darauf achten, dass ausserhalb des Spielbretts gedreht wird, da man ansonsten gleich ein Stein setzt.
 * **Zoom:** Mausrad scrollen.
 * **Verschieben:** Rechte Maustaste gedrückt halten.
@@ -34,13 +36,10 @@ Die Anwendung wurde mit **React (v18)**, **Vite** und **React Three Fiber** entw
 ---
 
 ## Installation & Setup
-
-**[Hier klicken, um zum Repo zu gelangen](https://github.com/henzgo/connect_four/)**
-
 Um das Projekt lokal auszuführen:
 
    ```bash
-   git clone [https://github.com/henzgo/connect_four.git](https://github.com/henzgo/connect_four.git)
-   cd connect_four
+   git clone https://github.com/henzgo/Connect_Four.git
+   cd Connect_Four
    npm install
    npm run dev
