@@ -20,6 +20,7 @@ Da das Spiel in einer 3D-Umgebung stattfindet, kannst man die Ansicht frei wähl
 
 
 **[Hier klicken, um das Spiel zu öffnen](https://henzgo.github.io/Connect_Four/)**
+**[Link zum Repo](https://github.com/Henzgo/Connect_Four)**
 
 ---
 
