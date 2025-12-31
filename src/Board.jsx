@@ -1,7 +1,7 @@
 import { useGLTF, Center } from '@react-three/drei'
 
 export function Board({ board, onFieldClick, ...props }) {
-  const { nodes, materials } = useGLTF('/Board.glb'); 
+  const { nodes, materials } = useGLTF('./Board.glb'); 
   
   const spacingX = 1.0; 
   const spacingY = 1.0; 
@@ -60,4 +60,4 @@ export function Board({ board, onFieldClick, ...props }) {
   )
 }
 
-useGLTF.preload('/Board.glb');
+useGLTF.preload('./Board.glb');
