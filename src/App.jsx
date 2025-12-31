@@ -1,6 +1,7 @@
 import { useGameState } from "./logic/useGameState";
 import { Status } from "./components/Status";
 import { Board2D } from "./components/Board2D";
+import "./styles.css";
 
 export default function App() {
   const { board,

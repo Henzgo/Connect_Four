@@ -1,4 +1,4 @@
-import { connect4Winner } from "../connect4-winner";
+import { connect4Winner } from "./connect4-winner";
 import { useState, useEffect } from "react";
 import { findEmptyRow, setInList, setInObj } from "./gameRules";
 
